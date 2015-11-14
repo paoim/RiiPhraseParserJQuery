@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Rii Phrase Parser</title>
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="../css/phraseparser.min.css" />
+</head>
+<body>
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand text-brand" href="http://www.rubberindustries.com/" target="_blank">Rii - Phrase Parser</a>
+			</div>
+
+			<div class="navbar-collapse collapse"></div>
+
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+
+			<!-- Content -->
+			<div class="row box-format">
+				<div id="rangeYears" class="padding-5 hidden">
+					<h4>Please input range of years</h4>
+					<input type="text" id="startYear" pattern="[0-9]{4,5}" placeholder="Year's start!" required />
+					<input type="text" id="endYear" pattern="[0-9]{4,5}" placeholder="Year's end!" required />
+					<input type="checkbox" id="defaultRangeYears" />
+					<label for="defaultRangeYears">default year's range (1920, 2020)</label>
+				</div>
+				<div id="uploadMakeModel" class="padding-5 top-line hidden">
+					<h4>Upload Make/Model in CSV file</h4>
+					<input type="file" id="uploadMakeFile" name="uploadMakeFile" accept=".csv" />
+				</div>
+				<div id="uploadStatesCities" class="padding-5 top-line hidden">
+					<h4>Upload States and Cities in CSV file</h4>
+					<input type="file" id="uploadScFile" name="uploadScFile" accept=".csv" />
+				</div>
+				<div id="exportPhrase" class="padding-5 top-line hidden">
+					<h4>Export CSV file</h4>
+					<div>
+						<input type="text" id="exportCsvFile" placeholder="Input csv file's name!" required />
+						<button id="exportPhraseBtn" class="btn btn-default" title="Export">Export</button>
+						<button id="backBtn" class="btn btn-default" title="Back">Back</button>
+					</div>
+				</div>
+				<div class="padding-5 top-line">
+					<table id="tableContainer"></table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div id="footer">
+		<div class="navbar navbar-default navbar-fixed-bottom">
+			<div class="navbar-inner">
+				<div class="container">
+					<footer>
+						<div class="row">
+							<div class="span4">Developed by Pao IM</div>
+						</div>
+					</footer>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Import External Library -->
+	<!-- <script src="../js/rii-1.12.0.min.js"></script> -->
+	<script src="../js/jquery-1.11.0.min.js"></script>
+	<script src="../js/jquery.tmpl.min.js"></script>
+
+	<!-- Custom JS Library  -->
+	<script src="../js/testJs.js"></script>
+	<script src="../js/custom.array-string.js"></script>
+	<script src="../js/controllers/UrlController.js"></script>
+	<script src="../js/controllers/PageController.js"></script>
+	<script src="../js/controllers/CsvController.js"></script>
+	<script src="../js/controllers/ExportController.js"></script>
+	<script src="../js/controllers/ExCsvController.js"></script>
+
+	<!-- Init Js -->
+	<script type="text/javascript">
+		<!-- // hide from really old browsers that noone uses anymore
+		$(function(){
+			var csv = new ExCsvController();
+			csv.init();
+		});
+		//-->
+	</script>
+</body>
+</html>

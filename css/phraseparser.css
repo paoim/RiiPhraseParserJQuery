@@ -1,0 +1,89 @@
+html,body {
+	overflow-x: hidden;
+}
+
+body {
+	padding-top: 70px;
+}
+
+footer {
+	padding: 10px 0;
+}
+
+.text-brand{
+	text-shadow:2px 2px 2px #cccccc;
+}
+
+.box-format{
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border: 1px solid #ccc;
+    margin: 5px 5px 70px;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.nav-bg{
+	background-color: #f8f8f8;
+}
+
+.top-line{
+	border-top: 1px solid #ccc;
+}
+
+.bottom-line{
+	border-bottom: 1px solid #ccc;
+}
+
+.padding-5{
+	padding: 5px;
+}
+
+.hidden{
+    display: none;
+}
+
+.show{
+    display: inline;
+}
+
+#checkBoxItems span{
+    font-weight: bold;
+}
+
+.row-append{
+   margin: 0px;
+}
+
+.col-w-4{
+   width: 66.6666666667%;
+}
+
+.col-w-5{
+   width: 58.33333333333334%;
+}
+
+.col-w-6{
+   width: 50.000000000000008%;
+}
+
+.col-w-7{
+    width: 41.666666666666676%;
+}
+
+.label-padding{
+   padding: 0px;
+}
+
+input[type="text"]:valid {
+    color: green;
+}
+
+input[type="text"]:valid ~ .input-validation::before {
+    content: "\2713";
+    color: green;
+}
+
+input[type="text"]:invalid {
+    color: red;
+}

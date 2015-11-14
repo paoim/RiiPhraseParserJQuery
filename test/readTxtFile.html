@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RII Phrase Parser</title>
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<h1>Welcome to Phrase Parser</h1>
+		</div>
+		<div id="content">
+			<div class="upload">
+				<input type="file" id="uploadFile" name="uploadFile" />
+			</div>
+			<div class="result"></div>
+			<div class="continue"></div>
+		</div>
+		<div id="footer"></div>
+	</div>
+
+	<script src="../js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$("#uploadFile").change(uploadCsvFile);
+			
+			function uploadCsvFile(evt){
+				//var files = evt.target.files;
+				
+				//var reader=new FileReader();
+				//reader.readAsText(file);
+				//console.log(reader.result);
+				//form.coordinates.value=reader.result;
+				
+				var f = evt.target.files[0];
+				if (f) {
+					var r = new FileReader();
+					r.onload = function(e) { 
+						var contents = e.target.result;
+						console.log( "Got the file.n" +"name: " + f.name + "n" +"type: " + f.type + "n" +"size: " + f.size + " bytesn" + "starts with: " + contents.substr(1, contents.indexOf("n")));
+						console.log(contents);
+					}
+					
+					r.readAsText(f);
+				} else {
+					alert("Failed to load file");
+				}
+			}
+		});
+	</script>
+</body>
+</html>

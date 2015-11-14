@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Rii Phrase Parser</title>
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="../css/phraseparser.min.css" />
+</head>
+<body>
+	<div class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand text-brand" href="http://www.rubberindustries.com/" target="_blank">Rii - Phrase Parser</a>
+			</div>
+
+			<div class="navbar-collapse collapse"></div>
+
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+
+			<!-- Content -->
+			<div class="row box-format">
+				<div id="upload" class="padding-5">
+					<h4>Upload CSV file</h4>
+					<input type="file" id="uploadFile" name="uploadFile" accept=".csv" />
+				</div>
+				<div id="result" class="padding-5 top-line hidden">
+					<h4>Actual Result</h4>
+					<ul id="resultsList">
+						<!-- Will load by JS -->
+					</ul>
+				</div>
+				<div id="combination" class="padding-5 top-line hidden">
+					<h4>Click on CheckBox to combine each phrase</h4>
+					<div id="checkBoxItems">
+						<!-- Will load by JS -->
+					</div>
+				</div>
+				<div id="generatePhrase" class="padding-5 top-line hidden">
+					<button id="generateMixedPhrasesBtn" class="btn btn-default" title="Generate with mixed phrases">Generate with mixed phrases</button>
+					<button id="generateCheckedPhrasesBtn" class="btn btn-default" title="Generate only checked phrases">Generate only checked phrases</button>
+				</div>
+				<div id="specifyKeyWord" class="padding-5 top-line hidden">
+					<h4>Identify each phrase bellow</h4>
+					<div id="identifyPhrase">
+						<div id="ip_all_ch_header" class="row row-append label-primary">
+							<!-- Will load by JS -->
+						</div>
+						<div id="ip_all_ch_input" class="row row-append">
+							<!-- Will load by JS -->
+						</div>
+						<div id="ip_each_ch_label" class="row row-append label-primary">
+							<!-- Will load by JS -->
+						</div>
+						<div id="identifyPhraseItems">
+							<!-- Will load by JS -->
+						</div>
+
+					</div>
+				</div>
+				<div id="nextPhrase" class="padding-5 top-line hidden">
+					<button id="nextBtn" class="btn btn-default" title="Continue">Continue</button>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+	<div id="footer">
+		<div class="navbar navbar-default navbar-fixed-bottom">
+			<div class="navbar-inner">
+				<div class="container">
+					<footer>
+						<div class="row">
+							<div class="span4">Developed by Pao IM</div>
+						</div>
+					</footer>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Import External Library -->
+	<!-- <script src="../js/rii-1.12.0.min.js"></script> -->
+	<script src="../js/jquery-1.11.0.min.js"></script>
+	<script src="../js/jquery.tmpl.min.js"></script>
+
+	<!-- Custom JS Library  -->
+	<script src="../js/custom.array-string.js"></script>
+	<script src="../js/listeners/eventListener.js"></script>
+	<script src="../js/listeners/templateListener.js"></script>
+	<!-- <script src="../js/staticData/statesCities.js"></script> -->
+	<script src="../js/controllers/CsvController.js"></script>
+	<script src="../js/controllers/PhraseController.js"></script>
+	<script src="../js/controllers/ExportController.js"></script>
+	<script src="../js/controllers/PageController.js"></script>
+	<script src="../js/controllers/HomeController.js"></script>
+
+	<!-- Template -->
+	<script id="chParentTemplate" type="text/x-jquery-tmpl">
+		<div id="chRow_item_${rowId}">
+			
+		</div>
+	</script>
+	<script id="chLabelTemplate" type="text/x-jquery-tmpl">
+		<div id="chRow_label_${rowId}" class="row row-append label-primary">
+			
+		</div>
+	</script>
+	<script id="chLabelColTemplate" type="text/x-jquery-tmpl">
+		<div id="row_col_label_${rowId}_${colId}" class="col-md-1 text-center" ${colCss}>
+			<span class="label ${labelCss}" title="${item}">${item}</span>
+		</div>
+	</script>
+	<script id="chLineTemplate" type="text/x-jquery-tmpl">
+		<div id="chRow_line_${rowId}">
+			
+		</div>
+	</script>
+	<script id="chLinesTemplate" type="text/x-jquery-tmpl">
+		<div id="chRow_line_${rowId}_${rowLineId}" class="row row-append">
+			
+		</div>
+	</script>
+	<script id="chLineColTemplate" type="text/x-jquery-tmpl">
+		<div id="chRow_col_line_${rowId}_${colId}" class="col-md-1 text-center" ${colCss}>
+			<input type="checkbox" value="${item}" onclick="selectOnCheckBoxItem($(this), ${callback});" />
+		</div>
+	</script>
+	<script id="ipAllChHeaderLabelTemplate" type="text/x-jquery-tmpl">
+		<div id="ip_all_ch_hd_label_${colId}" class="col-md-1 ${css}">
+			<span class="label">${label1}</span>
+		</div>
+	</script>
+	<script id="ipAllChHeaderInputTemplate" type="text/x-jquery-tmpl">
+		<div id="ip_all_ch_hd_input_${colId}" class="col-md-1 ${css}">
+			{{if headerCallback}}
+				<input type="checkbox" value="${colId}" onclick="selectOnCheckBoxHeader($(this), ${headerCallback});" />
+			{{else}}
+				<span class=""> &nbsp; </span>
+			{{/if}}
+		</div>
+	</script>
+	<script id="ipEachChLabelTemplate" type="text/x-jquery-tmpl">
+		<div id="ip_each_ch_label_${colId}" class="col-md-1 ${css}">
+			<span class="label" {{if title}}title="${title}"{{/if}}>${label2}</span>
+		</div>
+	</script>
+	<script id="identifyPhraseTemplate" type="text/x-jquery-tmpl">
+		<div id="ip_row_${rowId}" class="row row-append">
+			{{if yearCallback}}
+				 <div id="ip_row_${rowId}_0" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="year_${rowId}" onclick="selectOnCheckEachYear($(this), ${yearCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_1" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="make_${rowId}" onclick="selectOnCheckEachMake($(this), ${makeCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_2" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="location_${rowId}" onclick="selectOnCheckEachLocation($(this), ${locationCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_3" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="${JSON.stringify(phraseBroad)}" onclick="selectOnCheckEachBroad($(this), ${broadCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_4" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="${JSON.stringify(phrasePhrase)}" onclick="selectOnCheckEachPhrase($(this), ${phraseCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_5" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="${JSON.stringify(phraseExact)}" onclick="selectOnCheckEachExact($(this), ${exactCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_6" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="${JSON.stringify(phraseModifiedBroad)}" onclick="selectOnCheckEachModifiedBroad($(this), ${modifiedBroadCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_label" class="col-md-1 col-w-7">
+				 	  <span>${label}</span>
+				 </div>
+			{{else}}
+				 <div id="ip_row_${rowId}_0" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="location_${rowId}" onclick="selectOnCheckEachLocation($(this), ${locationCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_1" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="${JSON.stringify(phraseBroad)}" onclick="selectOnCheckEachBroad($(this), ${broadCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_2" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="${JSON.stringify(phrasePhrase)}" onclick="selectOnCheckEachPhrase($(this), ${phraseCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_3" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="${JSON.stringify(phraseExact)}" onclick="selectOnCheckEachExact($(this), ${exactCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_4" class="col-md-1 text-center">
+				 	  <input type="checkbox" value="${JSON.stringify(phraseModifiedBroad)}" onclick="selectOnCheckEachModifiedBroad($(this), ${modifiedBroadCallback});" />
+				 </div>
+				 <div id="ip_row_${rowId}_label" class="col-md-1 col-w-5">
+				 	  <span>${label}</span>
+				 </div>
+			{{/if}}
+		</div>
+	</script>
+
+	<!-- Init Js -->
+	<script type="text/javascript">
+		<!-- // hide from really old browsers that noone uses anymore
+		$(function(){
+			var home = new HomeController();
+			home.init();
+		});
+		//-->
+	</script>
+</body>
+</html>
